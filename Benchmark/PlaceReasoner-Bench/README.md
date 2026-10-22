@@ -12,7 +12,7 @@ Data download: **https://huggingface.co/datasets/fenggev566/PlaceReasoner-Bench*
 
 | Design | Top module | #Macros | #Clusters | #Types | Clk (ns) |
 |---|---|---:|---:|---:|---:|
-| ariane133      | `ariane`         | 133 | 14 | 1 | 4.0 |
+| ariane133      | `ariane`         | 132 | 14 | 1 | 4.0 |
 | ariane81       | `ariane`         |  81 |  8 | 6 | 4.0 |
 | bp_be          | `bp_be_top`      |  10 |  3 | 3 | 2.6 |
 | bp_fe          | `bp_fe_top`      |  11 |  4 | 3 | 1.8 |
@@ -20,7 +20,7 @@ Data download: **https://huggingface.co/datasets/fenggev566/PlaceReasoner-Bench*
 | swerv_wrapper  | `swerv_wrapper`  |  28 |  3 | 3 | 2.0 |
 | vga_lcd        | `vga_enh_top`    |  62 | 12 | 3 | 2.0 |
 | VeriGPU        | `gpu_card`       |  12 |  1 | 1 | 1.2 |
-| **Total**      |                  | **401** | **47** | -- | -- |
+| **Total**      |                  | **400** | **47** | -- | -- |
 
 `#Types` counts distinct macro types; `Clk` is the target clock period.
 
