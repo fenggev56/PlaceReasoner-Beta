@@ -1,5 +1,10 @@
 # PlaceReasoner-Beta
 
+[![arXiv](https://img.shields.io/badge/arXiv-2609.21263-b31b1b.svg)](https://arxiv.org/abs/2609.21263)
+
+Official implementation of
+**[PlaceReasoner-Beta: Reasoning-Driven Macro Placement and Benchmarking](https://arxiv.org/abs/2609.21263)**.
+
 **LLM-driven macro placement with routed PPA feedback.** PlaceReasoner-Beta
 lets LLM agents decide where the macros of a design go on **OpenROAD**
 (Nangate45). Every placement candidate is then taken through a *fixed*
@@ -189,6 +194,19 @@ dataflow/rtlmp/          macro-cluster generator (RTL-MP style dataflow clusteri
 Benchmark/               PlaceReasoner-Bench (download separately)
 Instructions/            coding-agent prompt for the same loop
 docs/images/             figures used in this README
+```
+
+## Citation
+
+If you use this code or PlaceReasoner-Bench, please cite:
+
+```bibtex
+@article{li2026placereasoner,
+  title={PlaceReasoner-Beta: Reasoning-Driven Macro Placement and Benchmarking},
+  author={Li, Qiufeng and Wang, Chengxuan and Chen, Rongqian and Cheng, Quan and Ren, Yihui and Ho, Chia-Tung and Pan, David Z and Lan, Tian and Cao, Weidong},
+  journal={arXiv preprint arXiv:2609.21263},
+  year={2026}
+}
 ```
 
 ## License
