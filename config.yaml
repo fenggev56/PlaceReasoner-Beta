@@ -1,0 +1,59 @@
+provider: openai
+
+# PlaceReasoner-Beta: the macro-placement agents (Planner / Placer / Checker /
+# Optimizer) are driven by the OpenAI Responses API with reasoning ON.
+# Everything downstream (detail place, CTS, route) runs the fixed
+# skills/skills_Nangate45 templates only to measure routed PPA; it is never tuned.
+openai:
+  model: gpt-5.4
+  # Key is read from $OPENAI_API_KEY first; this file is the fallback (see
+  # API_key/README.md). Spawned candidate workers inherit the environment.
+  api_key_file: API_key/api_key_openai.md
+  # Reasoning + function tools require /v1/responses (chat-completions rejects
+  # the combination for reasoning models). See macroflow/llm_openai.py.
+  reasoning_effort: medium
+  # Output budget covers reasoning + visible output.
+  max_output_tokens: 16384
+  max_attempts: 5
+  timeout: 600
+  # base_url: http://localhost:8000/v1   # any OpenAI-compatible endpoint
+
+tech_node: Nangate45
+default_eda_tool: openroad
+
+flow:
+  # Number of distinct macro-placement candidates (one isolated worker each).
+  macro_candidates: 5
+  parallel_workers: 5
+  # Gate A: macro-placement image check -> Placer refinement tries.
+  gate_a_max_refine: 4
+  # The model emits explicit macro coordinates (submit_placement_plan) instead
+  # of the deterministic cluster-aware Python path, so the model's placement
+  # reasoning actually determines PPA.
+  vlm_place_coords: true
+  # Optimizer: after the first routed batch, refine the best macro placement
+  # from its routed PPA this many times (0 = routed feedback only, no refinement).
+  post_route_opt_loops: 2
+  optimizer_variants: 4
+  # Downstream template (fixed, identical for every candidate):
+  #   timing = cts_route.tcl: CTS + route with bounded, default-margin
+  #            repair_timing (the setting all reference results were produced with)
+  #   light  = cts_route_light.tcl: CTS + route without timing repair (faster,
+  #            but global route can end congested -> no routed PPA)
+  route_mode: timing
+
+image:
+  save_width: 1024
+  margin: 0.03
+  pin_overlay: true
+
+skills:
+  base_dir: skills
+  manifest:
+    - {name: openroad-init-script,      path: skills_Nangate45/0.init/SKILL_init.md}
+    - {name: macro-place-planner,       path: skills_Nangate45/1.macro_place/SKILL_planner.md}
+    - {name: macro-place-checker,       path: skills_Nangate45/1.macro_place/SKILL_checker.md}
+    - {name: detail-place,              path: skills_Nangate45/2.detail_place/skill.md}
+    - {name: post-detail-cts-route,     path: skills_Nangate45/3.post_detail_placement/skill.md}
+    - {name: ppa-checker,               path: skills_Nangate45/4.PPA_checker/SKILL.md}
+    - {name: macro-optimizer,           path: skills_Nangate45/5.optimizer/SKILL.md}
